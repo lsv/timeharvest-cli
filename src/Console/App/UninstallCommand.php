@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lsv\TimeHarvestCli\Console\Install;
+namespace Lsv\TimeHarvestCli\Console\App;
 
 use Lsv\TimeHarvestCli\Console\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,7 +14,6 @@ class UninstallCommand extends AbstractCommand
     {
         $this
             ->setName('app:uninstall')
-            ->setAliases(['uninstall'])
             ->setDescription('Uninstall the configuration');
     }
 

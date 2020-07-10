@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lsv\TimeHarvestCli\Console\Install;
+namespace Lsv\TimeHarvestCli\Console\App;
 
 use Lsv\TimeHarvestCli\Console\AbstractCommand;
 use RuntimeException;
@@ -17,7 +17,6 @@ class InstallCommand extends AbstractCommand
     {
         $this
             ->setName('app:install')
-            ->setAliases(['install'])
             ->setDescription('Install the client to be used')
             ->addOption('account', null, InputOption::VALUE_OPTIONAL, 'The account id')
             ->addOption('token', null, InputOption::VALUE_OPTIONAL, 'The access token');

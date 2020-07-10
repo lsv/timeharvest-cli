@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Lsv\TimeHarvestCli\Console\Install;
+namespace Lsv\TimeHarvestCli\Console\App;
 
 use Lsv\TimeHarvestCli\Console\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ValidateUserCommand extends AbstractCommand
+class ValidateCommand extends AbstractCommand
 {
     protected function configure(): void
     {
         $this
-            ->setName('app:validatetoken')
-            ->setAliases(['validate'])
+            ->setName('app:validate')
             ->setDescription('Validates your account and token');
     }
 
