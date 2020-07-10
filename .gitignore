@@ -1,0 +1,4 @@
+vendor
+vendor-bin/box/vendor
+.php_cs.cache
+composer.lock
