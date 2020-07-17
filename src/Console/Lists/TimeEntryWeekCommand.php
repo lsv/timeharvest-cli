@@ -37,6 +37,7 @@ class TimeEntryWeekCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // @codeCoverageIgnoreStart
         if (!is_string($input->getArgument('week'))) {
             throw new RuntimeException('Week parameter is not a string');
         }
@@ -44,6 +45,7 @@ class TimeEntryWeekCommand extends AbstractCommand
         if (!is_string($input->getArgument('year'))) {
             throw new RuntimeException('Year parameter is not a string');
         }
+        // @codeCoverageIgnoreEnd
 
         [$from, $to] = $this->getWeekStartAndEndDate(
             (int) $input->getArgument('week'),
@@ -58,6 +60,7 @@ class TimeEntryWeekCommand extends AbstractCommand
             [
                 'Date',
                 'Client',
+                'Project',
                 'Task',
                 'Hours',
                 'Note',
@@ -70,6 +73,7 @@ class TimeEntryWeekCommand extends AbstractCommand
                 [
                     (new DateTime($row->spent_date))->format('D (Y-m-d)'),
                     $row->client->name,
+                    $row->project->name,
                     $row->task->name,
                     $row->hours,
                     $row->notes,
@@ -81,6 +85,7 @@ class TimeEntryWeekCommand extends AbstractCommand
         $table->addRow(
             [
                 "{$from->format('D (Y-m-d)')} - {$to->format('D (Y-m-d)')}",
+                '',
                 '',
                 '',
                 $total,

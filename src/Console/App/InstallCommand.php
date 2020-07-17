@@ -47,6 +47,7 @@ class InstallCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // @codeCoverageIgnoreStart
         if (!is_string($input->getOption('account'))) {
             throw new RuntimeException('Account is not a string');
         }
@@ -54,6 +55,7 @@ class InstallCommand extends AbstractCommand
         if (!is_string($input->getOption('token'))) {
             throw new RuntimeException('Token is not a string');
         }
+        // @codeCoverageIgnoreEnd
 
         // Test token
         if (!$this->client->testToken((string) $input->getOption('account'), (string) $input->getOption('token'))) {

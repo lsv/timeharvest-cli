@@ -38,7 +38,9 @@ abstract class AbstractCommand extends Command
         }
 
         if (!$helper = $this->getHelperSet()) {
+            // @codeCoverageIgnoreStart
             throw new RuntimeException('Could not get helper');
+            // @codeCoverageIgnoreEnd
         }
         $helper->set(new SelectHelper(), 'select');
     }
@@ -53,24 +55,18 @@ abstract class AbstractCommand extends Command
         $projectTitles = [];
 
         $filtered = array_filter($projects, static function (stdClass $project) use ($input) {
-            if (!$input->hasOption('project')) {
-                return true;
-            }
-
             $filter = $input->getOption('project');
-            if (!$filter) {
-                return true;
-            }
-
-            if (!is_string($filter)) {
+            if (!$filter || !is_string($filter)) {
                 return true;
             }
 
             $strings = [
                 (string) $project->id,
-                $project->project->code,
                 (string) $project->project->id,
+                $project->project->code,
+                $project->project->name,
                 $project->client->name,
+                (string) $project->client->id,
             ];
 
             foreach ($strings as $string) {
@@ -89,14 +85,20 @@ abstract class AbstractCommand extends Command
             $filtered
         );
 
-        /** @var SelectHelper $helper */
-        $helper = $this->getHelper('select');
+        if ($input->hasOption('no-select') && !$input->getOption('no-select')) {
+            // @codeCoverageIgnoreStart
+            /** @var SelectHelper $helper */
+            $helper = $this->getHelper('select');
 
-        return (string) $helper->select(
-            $input,
-            'Select project',
-            $projectTitles
-        );
+            return (string) $helper->select(
+                $input,
+                'Select project',
+                $projectTitles
+            );
+            // @codeCoverageIgnoreEnd
+        }
+
+        return (string) array_key_first($projectTitles);
     }
 
     protected function selectTask(InputInterface $input, string $projectId): string
@@ -122,14 +124,20 @@ abstract class AbstractCommand extends Command
             $tasks
         );
 
-        /** @var SelectHelper $helper */
-        $helper = $this->getHelper('select');
+        if ($input->hasOption('no-select') && !$input->getOption('no-select')) {
+            // @codeCoverageIgnoreStart
+            /** @var SelectHelper $helper */
+            $helper = $this->getHelper('select');
 
-        return (string) $helper->select(
-            $input,
-            "Select task for [{$project->project->code}] {$project->client->name} - {$project->project->name}",
-            $taskTitles
-        );
+            return (string) $helper->select(
+                $input,
+                "Select task for [{$project->project->code}] {$project->client->name} - {$project->project->name}",
+                $taskTitles
+            );
+            // @codeCoverageIgnoreEnd
+        }
+
+        return (string) array_key_first($taskTitles);
     }
 
     /**

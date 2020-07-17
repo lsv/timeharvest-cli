@@ -8,6 +8,9 @@ use RuntimeException;
 
 class Configuration
 {
+    /**
+     * @codeCoverageIgnore
+     */
     public function getHomeDirectory(): string
     {
         // Cannot use $_SERVER superglobal since that's empty during UnitUnishTestCase
@@ -29,6 +32,9 @@ class Configuration
         throw new RuntimeException('Could not determine your home directory');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getCurrentWorkingDirectory(): string
     {
         return (string) getcwd();
@@ -41,7 +47,9 @@ class Configuration
             && !mkdir($concurrentDirectory = $this->getHomeDirectory().'/.config', 0777, true)
             && !is_dir($concurrentDirectory)
         ) {
+            // @codeCoverageIgnoreStart
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            // @codeCoverageIgnoreEnd
         }
 
         return $this->getHomeDirectory().'/.config';
@@ -102,7 +110,7 @@ class Configuration
         $this->writeConfiguration($data);
     }
 
-    private function getConfiguration(): array
+    public function getConfiguration(): array
     {
         if (!file_exists($this->getConfigurationFile())) {
             $this->writeConfiguration([]);

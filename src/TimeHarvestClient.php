@@ -85,6 +85,10 @@ class TimeHarvestClient
         }
 
         $entry = $timeEntries[0];
+        if (!property_exists($entry, 'id')) {
+            throw new RuntimeException('You do not have any running timers');
+        }
+
         $response = $this->client->request(
             'PATCH',
             "https://api.harvestapp.com/api/v2/time_entries/{$entry->id}/stop",

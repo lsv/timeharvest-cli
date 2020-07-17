@@ -31,9 +31,11 @@ class TimeEntryDayCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // @codeCoverageIgnoreStart
         if (!is_string($input->getArgument('day'))) {
             throw new RuntimeException('Day parameter is not a string');
         }
+        // @codeCoverageIgnoreEnd
 
         $date = new DateTime((string) $input->getArgument('day'));
         $entries = $this->client->getTimeEntries($date, $date);
@@ -43,6 +45,7 @@ class TimeEntryDayCommand extends AbstractCommand
         $table->setHeaders(
             [
                 'Client',
+                'Project',
                 'Task',
                 'Hours',
                 'Note',
@@ -54,6 +57,7 @@ class TimeEntryDayCommand extends AbstractCommand
             $table->addRow(
                 [
                     $row->client->name,
+                    $row->project->name,
                     $row->task->name,
                     $row->hours,
                     $row->notes,
@@ -64,6 +68,7 @@ class TimeEntryDayCommand extends AbstractCommand
         $table->addRow(new TableSeparator());
         $table->addRow([
             $date->format('D (Y-m-d)'),
+            '',
             '',
             $total,
             '',
