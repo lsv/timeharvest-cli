@@ -1,4 +1,7 @@
 {
+    "name": "lsv/timeharvest-cli",
+    "description": "Timeharvest CLI",
+    "license": "MIT",
     "require": {
         "php": "^7.4",
         "ext-json": "*",
