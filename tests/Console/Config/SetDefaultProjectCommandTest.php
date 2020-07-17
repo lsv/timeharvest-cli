@@ -31,7 +31,7 @@ class SetDefaultProjectCommandTest extends AbstractCommandTest
             $this->getConfiguration()->getConfiguration()['defaultprojects']
         );
         self::assertSame(
-            '[OS1] 123 Industries - Online Store - Phase 1',
+            '14308069',
             $this->getConfiguration()->getConfiguration()['defaultprojects'][$this->getTestWorkingDirectory()]
         );
     }

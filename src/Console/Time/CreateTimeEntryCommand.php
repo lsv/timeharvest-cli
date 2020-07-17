@@ -32,7 +32,8 @@ class CreateTimeEntryCommand extends AbstractCommand
                 'The ID of the task to associate with the time entry, or a string of the task to filter them'
             )
             ->addArgument('hours', InputArgument::REQUIRED, 'The current amount of time tracked')
-            ->addArgument('note', InputArgument::REQUIRED, 'Note for the time entry');
+            ->addArgument('note', InputArgument::REQUIRED, 'Note for the time entry')
+            ->addOption('no-select', null, InputOption::VALUE_NONE, 'Do not use project and task select');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void

@@ -34,7 +34,7 @@ abstract class AbstractCommandTest extends TestCase
 
     protected function tearDown(): void
     {
-//        $this->removeInstalledConfiguration();
+        $this->removeInstalledConfiguration();
     }
 
     /**

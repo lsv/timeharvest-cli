@@ -29,7 +29,9 @@ class StartTimeEntryCommand extends AbstractCommand
                 't',
                 InputOption::VALUE_OPTIONAL,
                 'The ID of the task to associate with the time entry, or a string of the task to filter them'
-            );
+            )
+            ->addOption('no-select', null, InputOption::VALUE_NONE, 'Do not use project and task select')
+        ;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void
