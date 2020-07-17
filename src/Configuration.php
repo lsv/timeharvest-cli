@@ -37,7 +37,7 @@ class Configuration
      */
     public function getCurrentWorkingDirectory(): string
     {
-        return (string) getcwd();
+        return (string)getcwd();
     }
 
     public function getConfigurationDirectory(): string
@@ -117,11 +117,44 @@ class Configuration
         }
 
         return json_decode(
-            (string) file_get_contents($this->getConfigurationFile()),
+            (string)file_get_contents($this->getConfigurationFile()),
             true,
             512,
             JSON_THROW_ON_ERROR
         );
+    }
+
+    public function setTaskForDirectory(string $taskName, bool $asGlobal): void
+    {
+        $data = $this->getConfiguration();
+        if ($asGlobal) {
+            $data['defaulttasks']['_GLOBAL_'] = $taskName;
+        } else {
+            $data['defaulttasks'][$this->getCurrentWorkingDirectory()] = $taskName;
+        }
+
+        $this->writeConfiguration($data);
+    }
+
+    public function getTaskForDirectory(): ?string
+    {
+        $data = $this->getConfiguration();
+
+        return $data['defaulttasks'][$this->getCurrentWorkingDirectory()] ?? $data['defaulttasks']['_GLOBAL_'] ?? null;
+    }
+
+    public function removeTaskForDirectory(bool $asGlobal): void
+    {
+        $data = $this->getConfiguration();
+        if ($asGlobal) {
+            if (isset($data['defaulttasks']['_GLOBAL_'])) {
+                unset($data['defaulttasks']['_GLOBAL_']);
+            }
+        } elseif (isset($data['defaulttasks'][$this->getCurrentWorkingDirectory()])) {
+            unset($data['defaulttasks'][$this->getCurrentWorkingDirectory()]);
+        }
+
+        $this->writeConfiguration($data);
     }
 
     private function writeConfiguration(array $configuration): void
