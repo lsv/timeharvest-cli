@@ -3,3 +3,4 @@ vendor-bin/box/vendor
 .php_cs.cache
 composer.lock
 tests/.testdir
+time.phar
