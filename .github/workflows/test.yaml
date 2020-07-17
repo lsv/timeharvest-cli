@@ -18,9 +18,3 @@ jobs:
 
             - name: Run tests
               run: composer test
-
-            - name: Save cache
-              uses:
-              with:
-                  name: vendorcache
-                  path: vendor
