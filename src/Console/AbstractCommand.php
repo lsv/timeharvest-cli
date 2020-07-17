@@ -103,6 +103,10 @@ abstract class AbstractCommand extends Command
 
     protected function selectTask(InputInterface $input, string $projectId): string
     {
+        if ($input->hasOption('task') && $taskForDirectory = $this->configuration->getTaskForDirectory()) {
+            $input->setOption('task', $taskForDirectory);
+        }
+
         $project = $this->findProject($projectId);
         $tasks = $project->task_assignments;
         $taskTitles = [];

@@ -21,7 +21,7 @@ class SetDefaultProjectCommand extends AbstractCommand
                 'project',
                 'p',
                 InputOption::VALUE_OPTIONAL,
-                'The ID of the project to associate with the time entry, or a string of the project name to filter them'
+                'The ID of the project to associate with this directory, or a string of the project name to filter them'
             )
             ->addOption('no-select', null, InputOption::VALUE_NONE, 'Do not use project and task select')
         ;
@@ -37,10 +37,12 @@ class SetDefaultProjectCommand extends AbstractCommand
         if (!is_string($input->getOption('project'))) {
             throw new RuntimeException('Could not parse option "project"');
         }
+        // @codeCoverageIgnoreEnd
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // @codeCoverageIgnoreStart
         if (!is_string($input->getOption('project'))) {
             throw new RuntimeException('Could not parse option "project"');
         }
