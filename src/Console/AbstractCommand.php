@@ -89,14 +89,18 @@ abstract class AbstractCommand extends Command
             $filtered
         );
 
-        /** @var SelectHelper $helper */
-        $helper = $this->getHelper('select');
+        if ($input->hasOption('no-select') && !$input->getOption('no-select')) {
+            /** @var SelectHelper $helper */
+            $helper = $this->getHelper('select');
 
-        return (string) $helper->select(
-            $input,
-            'Select project',
-            $projectTitles
-        );
+            return (string) $helper->select(
+                $input,
+                'Select project',
+                $projectTitles
+            );
+        }
+
+        return (string) $projectTitles[array_key_first($projectTitles)];
     }
 
     protected function selectTask(InputInterface $input, string $projectId): string
@@ -122,14 +126,18 @@ abstract class AbstractCommand extends Command
             $tasks
         );
 
-        /** @var SelectHelper $helper */
-        $helper = $this->getHelper('select');
+        if ($input->hasOption('no-select') && !$input->getOption('no-select')) {
+            /** @var SelectHelper $helper */
+            $helper = $this->getHelper('select');
 
-        return (string) $helper->select(
-            $input,
-            "Select task for [{$project->project->code}] {$project->client->name} - {$project->project->name}",
-            $taskTitles
-        );
+            return (string) $helper->select(
+                $input,
+                "Select task for [{$project->project->code}] {$project->client->name} - {$project->project->name}",
+                $taskTitles
+            );
+        }
+
+        return (string) $taskTitles[array_key_first($taskTitles)];
     }
 
     /**

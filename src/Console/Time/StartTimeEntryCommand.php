@@ -37,15 +37,19 @@ class StartTimeEntryCommand extends AbstractCommand
         parent::interact($input, $output);
 
         $input->setOption('project', $this->selectProject($input));
+
+        // @codeCoverageIgnoreStart
         if (!is_string($input->getOption('project'))) {
             throw new RuntimeException('Could not parse option "project"');
         }
+        // @codeCoverageIgnoreEnd
 
         $input->setOption('task', $this->selectTask($input, $input->getOption('project')));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // @codeCoverageIgnoreStart
         if (!is_string($input->getOption('project'))) {
             throw new RuntimeException('Could not parse option "project"');
         }
@@ -53,6 +57,7 @@ class StartTimeEntryCommand extends AbstractCommand
         if (!is_string($input->getOption('task'))) {
             throw new RuntimeException('Could not parse option "task"');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->client->startTimer(
             $input->getOption('project'),

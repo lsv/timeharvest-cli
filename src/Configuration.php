@@ -102,7 +102,7 @@ class Configuration
         $this->writeConfiguration($data);
     }
 
-    private function getConfiguration(): array
+    public function getConfiguration(): array
     {
         if (!file_exists($this->getConfigurationFile())) {
             $this->writeConfiguration([]);
