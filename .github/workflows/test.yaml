@@ -16,6 +16,11 @@ jobs:
                     coverage: xdebug
                     tools: composer
 
+            - name: Write event name and github ref
+              run: |
+                  echo "${{ github.event_name }}"
+                  echo "${{ github.ref }}"
+
     test:
         runs-on: ubuntu-latest
         needs: setup
