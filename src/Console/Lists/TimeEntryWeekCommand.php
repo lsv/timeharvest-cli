@@ -6,6 +6,7 @@ namespace Lsv\TimeHarvestCli\Console\Lists;
 
 use DateTime;
 use Lsv\TimeHarvestCli\Console\AbstractCommand;
+use RuntimeException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -37,11 +38,11 @@ class TimeEntryWeekCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!is_string($input->getArgument('week'))) {
-            throw new \RuntimeException('Week parameter is not a string');
+            throw new RuntimeException('Week parameter is not a string');
         }
 
         if (!is_string($input->getArgument('year'))) {
-            throw new \RuntimeException('Year parameter is not a string');
+            throw new RuntimeException('Year parameter is not a string');
         }
 
         [$from, $to] = $this->getWeekStartAndEndDate(

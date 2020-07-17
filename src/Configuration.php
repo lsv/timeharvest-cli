@@ -29,8 +29,21 @@ class Configuration
         throw new RuntimeException('Could not determine your home directory');
     }
 
+    public function getCurrentWorkingDirectory(): string
+    {
+        return (string) getcwd();
+    }
+
     public function getConfigurationDirectory(): string
     {
+        if (
+            !is_dir($this->getHomeDirectory().'/.config')
+            && !mkdir($concurrentDirectory = $this->getHomeDirectory().'/.config', 0777, true)
+            && !is_dir($concurrentDirectory)
+        ) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+        }
+
         return $this->getHomeDirectory().'/.config';
     }
 
@@ -41,39 +54,70 @@ class Configuration
 
     public function saveAccountToken(string $account, string $token): void
     {
-        $data = json_encode(
-            [
-                'account' => $account,
-                'token' => $token,
-            ],
-            JSON_THROW_ON_ERROR
-        );
-
-        file_put_contents($this->getConfigurationFile(), $data);
+        $data = $this->getConfiguration();
+        $data['account'] = $account;
+        $data['token'] = $token;
+        $this->writeConfiguration($data);
     }
 
     public function getAccountId(): string
     {
-        return json_decode(
-            (string) file_get_contents($this->getConfigurationFile()),
-            true,
-            512,
-            JSON_THROW_ON_ERROR
-        )['account'];
+        return $this->getConfiguration()['account'];
     }
 
     public function getToken(): string
     {
-        return json_decode(
-            (string) file_get_contents($this->getConfigurationFile()),
-            true,
-            512,
-            JSON_THROW_ON_ERROR
-        )['token'];
+        return $this->getConfiguration()['token'];
     }
 
     public function isAlreadyInstalled(): bool
     {
         return file_exists($this->getConfigurationFile());
+    }
+
+    public function setProjectForDirectory(string $project): void
+    {
+        $data = $this->getConfiguration();
+
+        $data['defaultprojects'][$this->getCurrentWorkingDirectory()] = $project;
+
+        $this->writeConfiguration($data);
+    }
+
+    public function getProjectForDirectory(): ?string
+    {
+        $data = $this->getConfiguration();
+
+        return $data['defaultprojects'][$this->getCurrentWorkingDirectory()] ?? null;
+    }
+
+    public function removeProjectForDirectory(): void
+    {
+        $data = $this->getConfiguration();
+
+        if (isset($data['defaultprojects'][$this->getCurrentWorkingDirectory()])) {
+            unset($data['defaultprojects'][$this->getCurrentWorkingDirectory()]);
+        }
+
+        $this->writeConfiguration($data);
+    }
+
+    private function getConfiguration(): array
+    {
+        if (!file_exists($this->getConfigurationFile())) {
+            $this->writeConfiguration([]);
+        }
+
+        return json_decode(
+            (string) file_get_contents($this->getConfigurationFile()),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+    }
+
+    private function writeConfiguration(array $configuration): void
+    {
+        file_put_contents($this->getConfigurationFile(), json_encode($configuration, JSON_THROW_ON_ERROR));
     }
 }

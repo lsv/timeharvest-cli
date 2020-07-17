@@ -6,6 +6,7 @@ namespace Lsv\TimeHarvestCli\Console\Lists;
 
 use DateTime;
 use Lsv\TimeHarvestCli\Console\AbstractCommand;
+use RuntimeException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,7 +32,7 @@ class TimeEntryDayCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!is_string($input->getArgument('day'))) {
-            throw new \RuntimeException('Day parameter is not a string');
+            throw new RuntimeException('Day parameter is not a string');
         }
 
         $date = new DateTime((string) $input->getArgument('day'));

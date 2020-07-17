@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Lsv\TimeHarvestCli\Console\App\InstallCommand;
 use Lsv\TimeHarvestCli\Console\App\UninstallCommand;
 use Lsv\TimeHarvestCli\Console\App\ValidateCommand;
+use Lsv\TimeHarvestCli\Console\Config\RemoveDefaultProjectCommand;
+use Lsv\TimeHarvestCli\Console\Config\SetDefaultProjectCommand;
 use Lsv\TimeHarvestCli\Console\Lists\TimeEntryDayCommand;
 use Lsv\TimeHarvestCli\Console\Lists\TimeEntryWeekCommand;
 use Lsv\TimeHarvestCli\Console\Time\CreateTimeEntryCommand;
@@ -23,5 +25,7 @@ $app->add(new TimeEntryDayCommand());
 $app->add(new TimeEntryWeekCommand());
 $app->add(new StartTimeEntryCommand());
 $app->add(new EndTimeEntryCommand());
+$app->add(new SetDefaultProjectCommand());
+$app->add(new RemoveDefaultProjectCommand());
 
 $app->run();

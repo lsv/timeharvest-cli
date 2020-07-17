@@ -23,10 +23,10 @@ abstract class AbstractCommand extends Command
 
     protected Configuration $configuration;
 
-    public function __construct(?HttpClientInterface $httpClient = null)
+    public function __construct(?HttpClientInterface $httpClient = null, ?Configuration $configuration = null)
     {
         parent::__construct();
-        $this->configuration = new Configuration();
+        $this->configuration = $configuration ?? new Configuration();
         $this->client = new TimeHarvestClient($this->configuration, $httpClient);
     }
 
@@ -45,6 +45,10 @@ abstract class AbstractCommand extends Command
 
     protected function selectProject(InputInterface $input): string
     {
+        if ($input->hasOption('project') && $projectForDirectory = $this->configuration->getProjectForDirectory()) {
+            $input->setOption('project', $projectForDirectory);
+        }
+
         $projects = $this->findProjects();
         $projectTitles = [];
 
