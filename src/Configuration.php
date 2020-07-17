@@ -37,7 +37,7 @@ class Configuration
      */
     public function getCurrentWorkingDirectory(): string
     {
-        return (string)getcwd();
+        return (string) getcwd();
     }
 
     public function getConfigurationDirectory(): string
@@ -117,7 +117,7 @@ class Configuration
         }
 
         return json_decode(
-            (string)file_get_contents($this->getConfigurationFile()),
+            (string) file_get_contents($this->getConfigurationFile()),
             true,
             512,
             JSON_THROW_ON_ERROR
