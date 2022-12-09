@@ -6,9 +6,6 @@ namespace Lsv\TimeHarvestCli\Console;
 
 use Lsv\TimeHarvestCli\Configuration;
 use Lsv\TimeHarvestCli\TimeHarvestClient;
-use RedAnt\Console\Helper\SelectHelper;
-use RuntimeException;
-use stdClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,15 +31,8 @@ abstract class AbstractCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
         if (!$this->configuration->isAlreadyInstalled()) {
-            throw new RuntimeException('You have not installed thje CLI yet, please run app:install');
+            throw new \RuntimeException('You have not installed thje CLI yet, please run app:install');
         }
-
-        if (!$helper = $this->getHelperSet()) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Could not get helper');
-            // @codeCoverageIgnoreEnd
-        }
-        $helper->set(new SelectHelper(), 'select');
     }
 
     protected function selectProject(InputInterface $input): string
@@ -54,7 +44,7 @@ abstract class AbstractCommand extends Command
         $projects = $this->findProjects();
         $projectTitles = [];
 
-        $filtered = array_filter($projects, static function (stdClass $project) use ($input) {
+        $filtered = array_filter($projects, static function (\stdClass $project) use ($input): bool {
             $filter = $input->getOption('project');
             if (!$filter || !is_string($filter)) {
                 return true;
@@ -79,23 +69,14 @@ abstract class AbstractCommand extends Command
         });
 
         array_map(
-            static function (stdClass $project) use (&$projectTitles) {
+            static function (\stdClass $project) use (&$projectTitles): void {
                 $projectTitles[$project->project->id] = "[{$project->project->code}] {$project->client->name} - {$project->project->name}";
             },
             $filtered
         );
 
         if ($input->hasOption('no-select') && !$input->getOption('no-select')) {
-            // @codeCoverageIgnoreStart
-            /** @var SelectHelper $helper */
-            $helper = $this->getHelper('select');
-
-            return (string) $helper->select(
-                $input,
-                'Select project',
-                $projectTitles
-            );
-            // @codeCoverageIgnoreEnd
+            return $this->io->choice('Select project', $projectTitles);
         }
 
         return (string) array_key_first($projectTitles);
@@ -111,41 +92,37 @@ abstract class AbstractCommand extends Command
         $tasks = $project->task_assignments;
         $taskTitles = [];
         array_map(
-            static function (stdClass $task) use (&$taskTitles, $input) {
+            static function (\stdClass $task) use (&$taskTitles, $input): void {
                 if (
                     $input->hasOption('task')
                     && ($filter = $input->getOption('task'))
                     && is_string($filter)
-                    && false === strpos($task->task->name, $filter)
-                    && false === strpos((string) $task->task->id, $filter)
-                    && false === strpos((string) $task->id, $filter)
+                    && !str_contains($task->task->name, $filter)
+                    && !str_contains((string) $task->task->id, $filter)
+                    && !str_contains((string) $task->id, $filter)
                 ) {
                     return;
                 }
 
-                $taskTitles[$task->task->id] = (string) ($task->task->name);
+                $taskTitles[$task->task->id] = (string) $task->task->name;
             },
             $tasks
         );
 
         if ($input->hasOption('no-select') && !$input->getOption('no-select')) {
-            // @codeCoverageIgnoreStart
-            /** @var SelectHelper $helper */
-            $helper = $this->getHelper('select');
-
-            return (string) $helper->select(
-                $input,
+            return $this->io->choice(
                 "Select task for [{$project->project->code}] {$project->client->name} - {$project->project->name}",
                 $taskTitles
             );
-            // @codeCoverageIgnoreEnd
         }
 
         return (string) array_key_first($taskTitles);
     }
 
     /**
-     * @return stdClass[]
+     * @return \stdClass[]
+     *
+     * @throws \JsonException
      */
     private function findProjects(): array
     {
@@ -156,16 +133,14 @@ abstract class AbstractCommand extends Command
         return $json->project_assignments;
     }
 
-    private function findProject(string $projectId): stdClass
+    private function findProject(string $projectId): \stdClass
     {
         $projects = $this->findProjects();
-        /** @var stdClass[] $filtered */
+        /** @var \stdClass[] $filtered */
         $filtered = array_values(
             array_filter(
                 $projects,
-                static function (stdClass $assignment) use ($projectId) {
-                    return $assignment->project->id === (int) $projectId;
-                }
+                static fn (\stdClass $assignment) => $assignment->project->id === (int) $projectId
             )
         );
 
@@ -173,6 +148,6 @@ abstract class AbstractCommand extends Command
             return $filtered[0];
         }
 
-        throw new RuntimeException("Could not find tasks for project ID '{$projectId}'");
+        throw new \RuntimeException("Could not find tasks for project ID '{$projectId}'");
     }
 }

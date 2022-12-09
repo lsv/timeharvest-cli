@@ -3,11 +3,10 @@
     "description": "Timeharvest CLI",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": ">=8.1",
         "ext-json": "*",
-        "symfony/console": "^5.1",
-        "symfony/http-client": "^5.1",
-        "redant/console": "^1.0"
+        "symfony/console": "^6",
+        "symfony/http-client": "^6"
     },
     "autoload": {
         "psr-4": {
@@ -15,11 +14,10 @@
         }
     },
     "require-dev": {
-        "phpstan/phpstan": "^0.12.32",
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "bamarni/composer-bin-plugin": "^1.4",
+        "phpstan/phpstan": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3",
         "phpunit/phpunit": "^9.2",
-        "symfony/finder": "^5.1"
+        "symfony/finder": "^6"
     },
     "autoload-dev": {
         "psr-4": {
@@ -34,14 +32,15 @@
             "composer bin box update"
         ],
         "fix": [
-            "vendor/bin/php-cs-fixer --allow-risky=yes -q fix",
-            "vendor/bin/phpstan analyse -l max src tests",
-            "vendor/bin/phpunit"
+            "php-cs-fixer fix",
+            "phpstan --xdebug",
+            "phpunit"
         ],
         "test": [
-            "vendor/bin/php-cs-fixer --allow-risky=yes --dry-run --diff --stop-on-violation fix",
-            "vendor/bin/phpstan analyse -l max src tests",
-            "vendor/bin/phpunit"
+            "php-cs-fixer fix --dry-run --diff --show-progress=none",
+            "phpstan --xdebug",
+            "phpunit",
+            "infection --skip-initial-tests --threads=8 --coverage=.build/coverage"
         ]
     }
 }

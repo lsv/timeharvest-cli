@@ -6,14 +6,13 @@ namespace Lsv\TimeHarvestCliTest\Console\App;
 
 use Lsv\TimeHarvestCli\Console\App\UninstallCommand;
 use Lsv\TimeHarvestCliTest\Console\AbstractCommandTest;
-use RuntimeException;
 
 class UninstallCommandTest extends AbstractCommandTest
 {
     /**
      * @test
      */
-    public function can_uninstall(): void
+    public function canUninstall(): void
     {
         $command = new UninstallCommand($this->getHttpClient(), $this->getConfiguration());
         $tester = $this->getCommandTester($command);
@@ -25,9 +24,9 @@ class UninstallCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_not_uninstall_if_not_installed(): void
+    public function canNotUninstallIfNotInstalled(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('You have not installed thje CLI yet, please run app:install');
 
         $this->removeInstalledConfiguration();

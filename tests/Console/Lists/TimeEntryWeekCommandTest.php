@@ -13,7 +13,7 @@ class TimeEntryWeekCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function will_output_day_entries(): void
+    public function willOutputDayEntries(): void
     {
         $responses = [
             new MockResponse((string) file_get_contents(__DIR__.'/../../Fixtures/ClientResponses/me.json')),

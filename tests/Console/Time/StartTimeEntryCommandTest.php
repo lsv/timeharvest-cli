@@ -13,7 +13,7 @@ class StartTimeEntryCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_start_timer(): void
+    public function canStartTimer(): void
     {
         $responses = [
             new MockResponse(

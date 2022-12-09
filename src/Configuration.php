@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lsv\TimeHarvestCli;
 
-use RuntimeException;
-
 class Configuration
 {
     /**
@@ -29,7 +27,7 @@ class Configuration
             return rtrim($home, '\\/');
         }
 
-        throw new RuntimeException('Could not determine your home directory');
+        throw new \RuntimeException('Could not determine your home directory');
     }
 
     /**
@@ -110,6 +108,9 @@ class Configuration
         $this->writeConfiguration($data);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getConfiguration(): array
     {
         if (!file_exists($this->getConfigurationFile())) {
@@ -157,6 +158,9 @@ class Configuration
         $this->writeConfiguration($data);
     }
 
+    /**
+     * @param array<mixed> $configuration
+     */
     private function writeConfiguration(array $configuration): void
     {
         file_put_contents($this->getConfigurationFile(), json_encode($configuration, JSON_THROW_ON_ERROR));

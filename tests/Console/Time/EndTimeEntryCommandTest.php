@@ -6,7 +6,6 @@ namespace Lsv\TimeHarvestCliTest\Console\Time;
 
 use Lsv\TimeHarvestCli\Console\Time\EndTimeEntryCommand;
 use Lsv\TimeHarvestCliTest\Console\AbstractCommandTest;
-use RuntimeException;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 class EndTimeEntryCommandTest extends AbstractCommandTest
@@ -14,7 +13,7 @@ class EndTimeEntryCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_stop_timer(): void
+    public function canStopTimer(): void
     {
         $responses = [
             new MockResponse((string) file_get_contents(__DIR__.'/../../Fixtures/ClientResponses/me.json')),
@@ -32,9 +31,9 @@ class EndTimeEntryCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_not_stop_timer_if_not_already_started(): void
+    public function canNotStopTimerIfNotAlreadyStarted(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('You do not have any running timers');
 
         $responses = [
@@ -51,9 +50,9 @@ class EndTimeEntryCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_not_stop_timer_if_empty_array(): void
+    public function canNotStopTimerIfEmptyArray(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('You do not have any running timers');
 
         $responses = [
@@ -70,9 +69,9 @@ class EndTimeEntryCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_not_stop_timer_if_have_more_than_one_started(): void
+    public function canNotStopTimerIfHaveMoreThanOneStarted(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('You have multiple running timers, which are not currently supported');
         $responses = [
             new MockResponse((string) file_get_contents(__DIR__.'/../../Fixtures/ClientResponses/me.json')),

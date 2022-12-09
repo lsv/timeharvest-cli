@@ -13,7 +13,7 @@ class SetDefaultProjectCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_add_default_project_to_working_directory(): void
+    public function canAddDefaultProjectToWorkingDirectory(): void
     {
         $responses = [
             new MockResponse((string) file_get_contents(__DIR__.'/../../Fixtures/ClientResponses/active_projects.json')),

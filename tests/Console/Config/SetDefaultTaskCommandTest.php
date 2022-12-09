@@ -13,7 +13,7 @@ class SetDefaultTaskCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_set_task_for_directory(): void
+    public function canSetTaskForDirectory(): void
     {
         $responses = [
             new MockResponse((string) file_get_contents(__DIR__.'/../../Fixtures/ClientResponses/active_projects.json')),
@@ -41,7 +41,7 @@ class SetDefaultTaskCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_set_task_as_global(): void
+    public function canSetTaskAsGlobal(): void
     {
         $responses = [
             new MockResponse((string) file_get_contents(__DIR__.'/../../Fixtures/ClientResponses/active_projects.json')),

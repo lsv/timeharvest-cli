@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lsv\TimeHarvestCli\Console\Config;
 
 use Lsv\TimeHarvestCli\Console\AbstractCommand;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,7 +34,7 @@ class SetDefaultProjectCommand extends AbstractCommand
 
         // @codeCoverageIgnoreStart
         if (!is_string($input->getOption('project'))) {
-            throw new RuntimeException('Could not parse option "project"');
+            throw new \RuntimeException('Could not parse option "project"');
         }
         // @codeCoverageIgnoreEnd
     }
@@ -44,7 +43,7 @@ class SetDefaultProjectCommand extends AbstractCommand
     {
         // @codeCoverageIgnoreStart
         if (!is_string($input->getOption('project'))) {
-            throw new RuntimeException('Could not parse option "project"');
+            throw new \RuntimeException('Could not parse option "project"');
         }
         // @codeCoverageIgnoreEnd
 

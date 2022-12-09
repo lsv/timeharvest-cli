@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lsv\TimeHarvestCli\Console\App;
 
 use Lsv\TimeHarvestCli\Console\AbstractCommand;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +28,7 @@ class InstallCommand extends AbstractCommand
             $this->configuration->isAlreadyInstalled()
             && !$this->io->confirm('You have already this, do you want to reset your configuration?')
         ) {
-            throw new RuntimeException('Already installed');
+            throw new \RuntimeException('Already installed');
         }
 
         if (!$input->getOption('token') || !$input->getOption('account')) {
@@ -49,11 +48,11 @@ class InstallCommand extends AbstractCommand
     {
         // @codeCoverageIgnoreStart
         if (!is_string($input->getOption('account'))) {
-            throw new RuntimeException('Account is not a string');
+            throw new \RuntimeException('Account is not a string');
         }
 
         if (!is_string($input->getOption('token'))) {
-            throw new RuntimeException('Token is not a string');
+            throw new \RuntimeException('Token is not a string');
         }
         // @codeCoverageIgnoreEnd
 

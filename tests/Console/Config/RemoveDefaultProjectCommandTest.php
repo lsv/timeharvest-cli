@@ -12,7 +12,7 @@ class RemoveDefaultProjectCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_remove_project_from_defaults(): void
+    public function canRemoveProjectFromDefaults(): void
     {
         $this->getConfiguration()->setProjectForDirectory('project');
 

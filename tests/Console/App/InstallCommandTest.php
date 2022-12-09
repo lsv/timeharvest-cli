@@ -13,7 +13,7 @@ class InstallCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_install(): void
+    public function canInstall(): void
     {
         $command = new InstallCommand($this->getHttpClient(), $this->getConfiguration());
         $tester = $this->getCommandTester($command);
@@ -33,7 +33,7 @@ class InstallCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_not_install_with_invalid_account(): void
+    public function canNotInstallWithInvalidAccount(): void
     {
         $responses = [
             new MockResponse('', ['http_code' => 400]),
@@ -54,7 +54,7 @@ class InstallCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_not_install_if_already_installed(): void
+    public function canNotInstallIfAlreadyInstalled(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessageMatches('/Already installed/');

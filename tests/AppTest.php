@@ -13,7 +13,7 @@ class AppTest extends TestCase
     /**
      * @test
      */
-    public function can_get_app(): void
+    public function canGetApp(): void
     {
         $app = App::get();
         $commands = $app->all();
@@ -21,13 +21,13 @@ class AppTest extends TestCase
         $finder = new Finder();
         $files = $finder->files()->in(__DIR__.'/../src/Console')->name('*Command.php')->notName('AbstractCommand.php');
 
-        self::assertCount(count($commands) - 7, $files);
+        self::assertCount(count($commands) - 9, $files);
     }
 
     /**
      * @test
      */
-    public function can_get_version(): void
+    public function canGetVersion(): void
     {
         $app = App::get();
         self::assertSame('dev-master', $app->getVersion());

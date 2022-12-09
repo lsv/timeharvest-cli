@@ -4,3 +4,5 @@ vendor-bin/box/vendor
 composer.lock
 tests/.testdir
 time.phar
+/.php-cs-fixer.cache
+/.phpunit.result.cache

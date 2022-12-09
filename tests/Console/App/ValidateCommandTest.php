@@ -13,7 +13,7 @@ class ValidateCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_validate(): void
+    public function canValidate(): void
     {
         $command = new ValidateCommand($this->getHttpClient(), $this->getConfiguration());
         $tester = $this->getCommandTester($command);
@@ -26,7 +26,7 @@ class ValidateCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_not_validate(): void
+    public function canNotValidate(): void
     {
         $responses = [
             new MockResponse('', ['http_code' => 400]),

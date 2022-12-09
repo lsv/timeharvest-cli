@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Lsv\TimeHarvestCli\Console\Lists;
 
-use DateTime;
 use Lsv\TimeHarvestCli\Console\AbstractCommand;
-use RuntimeException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,13 +23,13 @@ class TimeEntryWeekCommand extends AbstractCommand
                 'week',
                 InputArgument::OPTIONAL,
                 'The week number you want to see',
-                (new DateTime())->format('W')
+                (new \DateTime())->format('W')
             )
             ->addArgument(
                 'year',
                 InputArgument::OPTIONAL,
                 'The year you want to see, format Y-m-d',
-                (new DateTime())->format('Y')
+                (new \DateTime())->format('Y')
             );
     }
 
@@ -39,11 +37,11 @@ class TimeEntryWeekCommand extends AbstractCommand
     {
         // @codeCoverageIgnoreStart
         if (!is_string($input->getArgument('week'))) {
-            throw new RuntimeException('Week parameter is not a string');
+            throw new \RuntimeException('Week parameter is not a string');
         }
 
         if (!is_string($input->getArgument('year'))) {
-            throw new RuntimeException('Year parameter is not a string');
+            throw new \RuntimeException('Year parameter is not a string');
         }
         // @codeCoverageIgnoreEnd
 
@@ -71,7 +69,7 @@ class TimeEntryWeekCommand extends AbstractCommand
             $total += $row->hours;
             $table->addRow(
                 [
-                    (new DateTime($row->spent_date))->format('D (Y-m-d)'),
+                    (new \DateTime($row->spent_date))->format('D (Y-m-d)'),
                     $row->client->name,
                     $row->project->name,
                     $row->task->name,
@@ -98,13 +96,13 @@ class TimeEntryWeekCommand extends AbstractCommand
     }
 
     /**
-     * @return DateTime[]
+     * @return \DateTime[]
      */
     private function getWeekStartAndEndDate(int $week, int $year): array
     {
         return [
-            (new DateTime())->setISODate($year, $week),
-            (new DateTime())->setISODate($year, $week, 7),
+            (new \DateTime())->setISODate($year, $week),
+            (new \DateTime())->setISODate($year, $week, 7),
         ];
     }
 }

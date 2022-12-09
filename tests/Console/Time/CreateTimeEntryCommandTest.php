@@ -13,7 +13,7 @@ class CreateTimeEntryCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_create_time_entry(): void
+    public function canCreateTimeEntry(): void
     {
         $responses = [
             new MockResponse((string) file_get_contents(__DIR__.'/../../Fixtures/ClientResponses/project_assignments.json')),

@@ -12,7 +12,7 @@ class RemoveDefaultTaskCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_remove_task_for_directory(): void
+    public function canRemoveTaskForDirectory(): void
     {
         $this->getConfiguration()->setTaskForDirectory('task', false);
         self::assertArrayHasKey('defaulttasks', $this->getConfiguration()->getConfiguration());
@@ -39,7 +39,7 @@ class RemoveDefaultTaskCommandTest extends AbstractCommandTest
     /**
      * @test
      */
-    public function can_remove_task_as_global(): void
+    public function canRemoveTaskAsGlobal(): void
     {
         $this->getConfiguration()->setTaskForDirectory('task', true);
         self::assertArrayHasKey('defaulttasks', $this->getConfiguration()->getConfiguration());

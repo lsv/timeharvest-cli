@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Lsv\TimeHarvestCli;
 
-use DateTime;
-use RuntimeException;
-use stdClass;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -77,16 +74,16 @@ class TimeHarvestClient
     {
         $timeEntries = $this->getTimeStartedTimeEntry();
         if (0 === count($timeEntries)) {
-            throw new RuntimeException('You do not have any running timers');
+            throw new \RuntimeException('You do not have any running timers');
         }
 
         if (count($timeEntries) > 1) {
-            throw new RuntimeException('You have multiple running timers, which are not currently supported');
+            throw new \RuntimeException('You have multiple running timers, which are not currently supported');
         }
 
         $entry = $timeEntries[0];
         if (!property_exists($entry, 'id')) {
-            throw new RuntimeException('You do not have any running timers');
+            throw new \RuntimeException('You do not have any running timers');
         }
 
         $response = $this->client->request(
@@ -111,7 +108,7 @@ class TimeHarvestClient
                 [
                     'project_id' => (int) $project,
                     'task_id' => (int) $task,
-                    'spent_date' => (new DateTime())->format('Y-m-d'),
+                    'spent_date' => (new \DateTime())->format('Y-m-d'),
                 ]
             ),
         );
@@ -131,14 +128,14 @@ class TimeHarvestClient
                     'task_id' => (int) $task,
                     'hours' => $hours,
                     'notes' => $notes,
-                    'spent_date' => (new DateTime())->format('Y-m-d'),
+                    'spent_date' => (new \DateTime())->format('Y-m-d'),
                 ]
             ),
         );
         $response->getContent();
     }
 
-    public function getTimeEntries(DateTime $from, DateTime $to): string
+    public function getTimeEntries(\DateTime $from, \DateTime $to): string
     {
         static $timeEntries;
         if (!$timeEntries) {
@@ -164,6 +161,9 @@ class TimeHarvestClient
     }
 
     /**
+     * @param array<string, mixed> $bodyParameters
+     * @param array<string, mixed> $queryParameters
+     *
      * @return array<string, mixed>
      */
     protected function getHeaders(
@@ -193,7 +193,7 @@ class TimeHarvestClient
     }
 
     /**
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     private function getTimeStartedTimeEntry(): array
     {

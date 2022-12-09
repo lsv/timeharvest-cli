@@ -6,7 +6,6 @@ namespace Lsv\TimeHarvestCliTest\Console;
 
 use Lsv\TimeHarvestCli\Configuration;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -20,7 +19,7 @@ abstract class AbstractCommandTest extends TestCase
     {
         $app = new Application();
         if (!$appCommand = $app->add($command)) {
-            throw new RuntimeException('Command not found');
+            throw new \RuntimeException('Command not found');
         }
 
         return new CommandTester($appCommand);
